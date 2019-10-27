@@ -16,6 +16,7 @@ knitr::opts_chunk$set(echo = TRUE, comment = NA, message = FALSE,
 library(tidyverse)
 library(rvest)
 library(jsonlite)
+library(httr)
 ```
 
 
@@ -33,20 +34,53 @@ trycatch2 <- tryCatch(read_json("http://www2.stat.duke.edu/~sms185/data/fuel/bys
 
 ```{r}
 
-store_set <- sprintf("%05d", c(0:1000, 8000:9000))
 
 
-for(i in store_set){
-  link <- paste0("http://www2.stat.duke.edu/~sms185/data/fuel/bystore/awaw/awawstore=", i, ".json")
+
+get_wawa <- function(store_nums){
+
+  store_set <- sprintf("%05d", store_nums)
+    
+  for(i in store_set){
+    #creating link to attempt scraping
+    link <- paste0("http://www2.stat.duke.edu/~sms185/data/fuel/bystore/awaw/awawstore=", i, ".json")
   
-  attempt <- tryCatch(read_json(link),
-                      error=function(e){simpleError(e)}, 
-                      warning = function(w){simpleWarning(w)})
-  
-  if(!("message" %in% names(attempt))){
-    saveRDS(attempt, file=paste("dataset", i, sep="_"))
+    #attempts up to 5 times
+    for(j in 1:5){
+        attempt <- tryCatch(read_json(link),
+                            error=function(e){simpleError(e)}, 
+                            warning = function(w){simpleWarning(w)})
+          
+        Sys.sleep(1)
+          
+        if(!("message" %in% names(attempt))){
+          saveRDS(attempt, file=paste("dataset", i, sep="_"))
+          break
+        }
+    }
+    if(as.numeric(store_set) %% 500){
+      print(paste("store number", i, sep=": "))
+    }
   }
-  
 }
 
+get_wawa(c(0:1000, 8000:9000))
+
+
+
+```
+
+
+```{r}
+base_url <- "https://www2.stat.duke.edu/~sms185/data/fuel/bystore/awaw/awawstore="
+
+store_urls<-str_c(base_url,sprintf("%0005d.json",8070:8080))
+
+wawa_data <- map(store_urls,
+                 function(store_url) {
+                     if (http_error(store_url)==F){
+                       return(read_json(store_url))
+                     }
+                   }
+)
 ```
