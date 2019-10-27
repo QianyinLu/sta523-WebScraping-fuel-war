@@ -1,6 +1,6 @@
 ---
 title: "Homework 5"
-author: '[Member names]'
+author: 'Morris Greenberg, Presnie Lu, Evan Wyse, Zewen Zhang'
 date: "10/17/2019"
 output: 
   html_document:
@@ -12,3 +12,41 @@ knitr::opts_chunk$set(echo = TRUE, comment = NA, message = FALSE,
                       warning = FALSE)
 ```
 
+```{r}
+library(tidyverse)
+library(rvest)
+library(jsonlite)
+```
+
+
+```{r}
+test1 <- read_json("http://www2.stat.duke.edu/~sms185/data/fuel/bystore/awaw/awawstore=08078.json")
+
+trycatch1 <- tryCatch(read_json("http://www2.stat.duke.edu/~sms185/data/fuel/bystore/awaw/awawstore=08078.json"),
+                      error=function(e){simpleError(e)}, 
+                      warning = function(w){simpleWarning(w)})
+
+trycatch2 <- tryCatch(read_json("http://www2.stat.duke.edu/~sms185/data/fuel/bystore/awaw/awawstore=08077.json"),
+                      error=function(e){simpleError(e)}, 
+                      warning = function(w){simpleWarning(w)})
+```
+
+```{r}
+
+store_set <- sprintf("%05d", c(0:1000, 8000:9000))
+
+
+for(i in store_set){
+  link <- paste0("http://www2.stat.duke.edu/~sms185/data/fuel/bystore/awaw/awawstore=", i, ".json")
+  
+  attempt <- tryCatch(read_json(link),
+                      error=function(e){simpleError(e)}, 
+                      warning = function(w){simpleWarning(w)})
+  
+  if(!("message" %in% names(attempt))){
+    saveRDS(attempt, file=paste("dataset", i, sep="_"))
+  }
+  
+}
+
+```
