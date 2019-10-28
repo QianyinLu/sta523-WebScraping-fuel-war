@@ -1,27 +1,28 @@
 ---
 title: "Homework 5"
-author: '[Member Name]'
+author: '[Member names]'
 date: "10/17/2019"
 output: 
   html_document:
     keep_md: yes
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, comment = NA, message = FALSE,
-                      warning = FALSE)
-```
 
-```{r}
+
+
+```r
 library(tidyverse)
 library(rvest)
 library(jsonlite)
 ```
 
-```{r}
+
+```r
 sheetz <- readRDS("data/sheetz/sheetz.rds")
-colnames(sheetz)
-sheetz
+typeof(sheetz)
 ```
 
+```
+[1] "list"
+```
 
