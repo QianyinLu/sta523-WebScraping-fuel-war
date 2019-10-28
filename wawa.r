@@ -2,12 +2,13 @@ library(jsonlite)
 library(tidyverse)
 library(httr)
 base_url <- "https://www2.stat.duke.edu/~sms185/data/fuel/bystore/awaw/awawstore="
-store_urls<-str_c(base_url,sprintf("%0005d.json",8070:8080))
+store_urls<-str_c(base_url,sprintf("%0005d.json",c(0:1000, 8000:9000)))
 
 wawa_data <- map(store_urls,
   function(store_url) {
   if (http_error(store_url)==F){
-    read_json(store_url)
+    Sys.sleep(rexp(1))
+    tryCatch(read_json(store_url))
   }
   }
 )
@@ -21,7 +22,6 @@ content <- wawa_data%>%
     names(vac)<-names
     name_list<-names(x)
     vac[name_list]<-x[name_list]
-    
     return(vac)
   })
 
