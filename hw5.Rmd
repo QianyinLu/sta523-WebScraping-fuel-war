@@ -12,3 +12,7 @@ knitr::opts_chunk$set(echo = TRUE, comment = NA, message = FALSE,
                       warning = FALSE)
 ```
 
+```{r, cache=TRUE}
+readRDS("data/wawa/wawa.rds")
+```
+
