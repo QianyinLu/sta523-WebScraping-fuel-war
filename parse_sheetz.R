@@ -37,10 +37,7 @@ sheetz3 <- sheetz2 %>%
   mutate_at(dbl_cols, as.double) %>%
   mutate_at(int_cols, as.integer) %>%
   mutate_at(char_cols, as.character) %>%
-  mutate_at(lgl_cols, as.logical)
-
-#remove NA observations
-sheetz3 <- sheetz3[1:277,]
-
+  mutate_at(lgl_cols, as.logical) %>%
+  filter(storeNumber!="NA")
 
 saveRDS(sheetz3, file = "data/sheetz/sheetz.rds")
