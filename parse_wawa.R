@@ -28,3 +28,4 @@ wawa.df <- map_df(content, `[`, names) %>%
 
 
 saveRDS(wawa.df,"data/wawa/wawa.rds")
+

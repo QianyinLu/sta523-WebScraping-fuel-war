@@ -18,3 +18,4 @@ wawa_data <- map(store_urls,
 )
 #save the data to get_wawa.rds file
 saveRDS(wawa_data,file = "data/wawa/get_wawa.rds")
+
