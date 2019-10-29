@@ -1,5 +1,6 @@
 library(jsonlite)
 library(httr)
+library(tidyverse)
 #basic url without the information of stores
 base_url <- "https://www2.stat.duke.edu/~sms185/data/fuel/bystore/awaw/awawstore="
 #transform all possible store ids into form of xxxxx and combine it with the base_url
