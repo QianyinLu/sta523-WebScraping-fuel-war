@@ -1,6 +1,6 @@
 ---
 title: "Homework 5"
-author: '[Member names]'
+author: '[Qianyin Lu, Evan Wyse, Morris Greenberg, Zewen Zhang]'
 date: "10/17/2019"
 output: 
   html_document:
@@ -34,6 +34,10 @@ if (! require(ggvornoi)) {
   library(ggvoronoi)
 }
 library(tidyverse)
+if(! require(maps)){
+  install.packages("maps", contriburl="https://cloud.r-project.org")
+  library(maps)
+}
 
 
 wawa <- readRDS('data/wawa/wawa.rds') # TODO change 
