@@ -1,6 +1,6 @@
 ---
 title: "Homework 5"
-author: '[Member Name]'
+author: '[]'
 date: "10/17/2019"
 output: 
   html_document:
@@ -18,10 +18,15 @@ library(rvest)
 library(jsonlite)
 ```
 
-```{r}
+```{r, cache = T}
 sheetz <- readRDS("data/sheetz/sheetz.rds")
-colnames(sheetz)
-sheetz
 ```
 
+```{r, cache = T}
+wawa <- readRDS("data/wawa/wawa.rds")
+wawa
+```
+In the get_sheetz, we tried to obtain the urls we need for scraping and find the nodes for all 10 regions. We only need the previous 10 urls for data. After we get the urls, we wrote a function to get data: we read the html first, found out that the text part is some json data. Therefore, we used fromJSON to get the data frame. For one variable: storeAttribute, it’s a list of four data frame, and one of four data frames is just the same as storeNumber, which is already existed, so we just took other 3 data frame out and deleted storeAttribute. After using lapply for all 10 urls, we finally got a large list of 10 data frames.  And in the end, we saved the list named sheetz in get_sheetz.rds.  
+
+In parse_sheetz, we modified the data a little bit cause data of region 10 is a little bit different from others. Only the first 7 observations of 30 observations is meaningful, other observations are just null; so we selected only the first 7 obs. Since the data of region 10 is missing one variable: specialDirection, so we mutated sepecialDirection as a list of NULL for region10. And we binded all the list together to get a complete data frame for sheetz data. 
 
