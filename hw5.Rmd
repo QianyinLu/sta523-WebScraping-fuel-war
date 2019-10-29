@@ -55,7 +55,7 @@ get_wawa <- function(store_nums){
           
         #if there is not a warning or error message, return
         if(!("message" %in% names(attempt))){
-          saveRDS(attempt, file=paste("dataset", i, sep="_"))
+          saveRDS(attempt, file=paste0(paste("dataset", i, sep="_")), ".rds")
           break
         }
     }
@@ -90,7 +90,16 @@ wawa_data <- map(store_urls,
 sheetz <- "http://www2.stat.duke.edu/~sms185/data/fuel/bystore/zteehs/regions.html"
 
 #get url 
+url_headers <- read_html(sheetz)%>%
+  html_nodes(".col-md-2 a") %>%
+  html_text() %>%
+  trimws()
+
 url <- read_html(sheetz)%>%
-  html_nodes(".col-md-2 a")%>%
+  html_nodes(".col-md-2 a") %>%
   html_attr("href")
+
+url <- url[!(url_headers %in% c("", NA, NULL))]
+
+
 ```
