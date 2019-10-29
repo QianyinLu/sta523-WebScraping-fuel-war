@@ -12,9 +12,6 @@ knitr::opts_chunk$set(echo = TRUE, comment = NA, message = FALSE,
                       warning = FALSE)
 ```
 
-```{r, cache=TRUE}
-readRDS("data/wawa/wawa.rds")
-```
 
 ###TASK 1
 In order to get the hyperlinks for all Wawa stores, we first tried to generate all possible combination of store ID numbers for two given ranges in the correct format(5 digits). Then, we observed the overall pattern for individual url, which consists of a basic url and the store ID information. After that, we used a function called “http_error” to check which page is accessible. The function returns true if the hyperlink returns “HTTP error 404” and returns false if the url is valid. Thus, to correctly read the data, we applied a map function on all store hyperlinks and “http_error” to help filtering out the invalid links and read the valid json files. In addition, for everytime we read the json file, we added "Sys.sleep" function to prevent visiting the websites too frequently and being banned because of it. Also, to avoid the failure of visiting the website due to the unstable internet connection, we used "tryCatch" when reading the json file. Eventually we got a list called “wawa_data”, which consists of all valid store information and the rest stores with invalid hyperlink as NULL. Finally, we save the data as RDS file under the data/wawa directory.
