@@ -5,10 +5,16 @@ library(dplyr)
 sheetz <- "http://www2.stat.duke.edu/~sms185/data/fuel/bystore/zteehs/regions.html"
 
 #get url 
+url_headers <- read_html(sheetz)%>%
+  html_nodes(".col-md-2 a") %>%
+  html_text() %>%
+  trimws()
+
 urls <- read_html(sheetz)%>%
   html_nodes(".col-md-2 a")%>%
   html_attr("href")
-urls <- as.vector(urls)[1:10]
+
+urls <- urls[!(url_headers %in% c("", NA, NULL))]
 
 #funtion to get the large list of dataframe
 sheetz <- lapply(urls, function(url){
