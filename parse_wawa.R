@@ -14,4 +14,6 @@ content <- wawa_data%>%
 
 wawa.df <- map_df(content, `[`, names) %>% filter(!is.na(locationID)) 
 
+
 saveRDS(wawa.df,"data/wawa/wawa.rds")
+
